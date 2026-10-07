@@ -146,6 +146,8 @@ MediaPipe 공식 학습 도구(Model Maker)는 Python 3.14를 지원하지 않�
 
 ## 웹 버전 (nike → Nike 로고, ok → 👌)
 
+**바로 써보기: https://a63964885-jpg.github.io/gesture/**
+
 Gesture Studio로 학습한 모델을 브라우저에서 그대로 사용합니다. `nike` 제스처를 하면 손 위에 Nike 로고가, `ok`를 하면 👌 이모지가 나타납니다.
 
 ```bash
@@ -165,3 +167,13 @@ Chrome에서 **http://localhost:8765** 를 열고 카메라 권한을 허용하�
 - 손 인식은 MediaPipe Tasks Vision JS(CDN)가 합니다.
 - 커스텀 분류는 학습할 때 생성되는 `web/custom_model.json`(정규화 값 + 신경망 가중치)으로 브라우저에서 직접 계산합니다. Python 모델과 결과가 같은 것을 확인했습니다.
 - 기존 모델만 다시 내보내려면 `.venv/bin/python train.py --export-only`를 실행하세요.
+
+**GitHub Pages 업데이트**
+
+다시 학습해서 `web/`이 바뀌었다면, `main`에 커밋한 뒤 `web/` 폴더를 `gh-pages` 브랜치로 올리면 1분 안에 반영됩니다.
+
+```bash
+git add -A && git commit -m "Update model"
+git push origin main
+git subtree split --prefix web -b gh-pages-tmp && git push -f origin gh-pages-tmp:gh-pages && git branch -D gh-pages-tmp
+```
