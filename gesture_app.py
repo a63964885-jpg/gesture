@@ -2,8 +2,9 @@
 
 인식 제스처: None, Closed_Fist, Open_Palm, Pointing_Up, Thumb_Down,
             Thumb_Up, Victory, ILoveYou
-실행: .venv/bin/python gesture_app.py   (종료: q 또는 ESC)
+실행: .venv/bin/python gesture_app.py [--camera 1]   (종료: q 또는 ESC)
 """
+import argparse
 import time
 from pathlib import Path
 
@@ -70,6 +71,10 @@ def handle_gesture(name, state):
 
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--camera", type=int, default=0, help="카메라 번호 (0, 1, ...)")
+    args = parser.parse_args()
+
     options = vision.GestureRecognizerOptions(
         base_options=BaseOptions(model_asset_path=str(MODEL_PATH)),
         running_mode=vision.RunningMode.LIVE_STREAM,
@@ -80,7 +85,7 @@ def main():
         result_callback=on_result,
     )
 
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(args.camera)
     if not cap.isOpened():
         raise SystemExit("웹캠을 열 수 없습니다. (macOS: 터미널에 카메라 권한 허용 필요)")
 
